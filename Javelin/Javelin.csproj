@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D7FB4F57-E7D5-43C0-B41D-554C03E5CA52}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Javelin</RootNamespace>
+    <AssemblyName>Javelin</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Javelin.Bootstrapper</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\_References\autofac\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net">
+      <HintPath>..\_References\Common.Logging\Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\_References\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\_References\log4net\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_References\JsonNet\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\_References\Quartz\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack">
+      <HintPath>..\_References\ServiceStack\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\_References\ServiceStack\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\_References\ServiceStack\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\_References\ServiceStack\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\Helpers\IServiceStackTemplate.cs" />
+    <Compile Include="Api\Host\AutofacIocAdapter.cs" />
+    <Compile Include="Api\Master\IMasterService.cs" />
+    <Compile Include="Api\Master\IMasterServiceClientConfig.cs" />
+    <Compile Include="Api\Master\MasterService.cs" />
+    <Compile Include="Api\Master\MasterServiceClient.cs" />
+    <Compile Include="Api\Master\IMasterServiceClient.cs" />
+    <Compile Include="Api\Master\MasterServiceClientConfig.cs" />
+    <Compile Include="Api\Rest\ContainerExtender.cs" />
+    <Compile Include="Api\Rest\ContentTypes.cs" />
+    <Compile Include="Api\Rest\Serializers\XmlWebClientSerializer.cs" />
+    <Compile Include="Api\Rest\IWebClientSerializer.cs" />
+    <Compile Include="Api\Rest\IWebClientSerializerFactory.cs" />
+    <Compile Include="Api\Rest\WebClientSerializerFactory.cs" />
+    <Compile Include="Api\ServiceStackAppHost.cs" />
+    <Compile Include="Api\Master\JavelinMasterServiceWrapper.cs" />
+    <Compile Include="Api\Helpers\FaultDetails.cs" />
+    <Compile Include="Api\Helpers\ServiceStackTemplate.cs" />
+    <Compile Include="Api\Host\AppHostAsynchronousHttpListener.cs" />
+    <Compile Include="Api\Host\ServiceStackThreadPoolManager.cs" />
+    <Compile Include="Api\CommonContract\TaskFinished.cs" />
+    <Compile Include="Api\Rest\IRestReader.cs" />
+    <Compile Include="Api\Rest\RequestPreparer.cs" />
+    <Compile Include="Api\Rest\RestClient.cs" />
+    <Compile Include="Api\Rest\RestReader.cs" />
+    <Compile Include="Api\Rest\RestReaderException.cs" />
+    <Compile Include="Api\Rest\RestReaderResponse.cs" />
+    <Compile Include="Api\Rest\RestRequestBuilder.cs" />
+    <Compile Include="Api\Rest\Serializers\JsonWebClientSerializer.cs" />
+    <Compile Include="Api\Slave\ISlaveService.cs" />
+    <Compile Include="Api\Slave\ISlaveServiceClient.cs" />
+    <Compile Include="Api\Slave\ISlaveServiceConfig.cs" />
+    <Compile Include="Api\MethodVerbs.cs" />
+    <Compile Include="Api\ServiceStackAppHostBase.cs" />
+    <Compile Include="Api\Slave\JavelinSlaveServiceWrapper.cs" />
+    <Compile Include="Api\Slave\SlaveService.cs" />
+    <Compile Include="Api\Slave\SlaveServiceClient.cs" />
+    <Compile Include="Api\ServiceStackMethodRegistrationInfo.cs" />
+    <Compile Include="Api\CommonContract\TaskDelegate.cs" />
+    <Compile Include="Bootstrapper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Bootstrapper.Designer.cs">
+      <DependentUpon>Bootstrapper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Config\BootstrapperConfig.cs" />
+    <Compile Include="Config\BootstrapperMode.cs" />
+    <Compile Include="SlaveModule.cs" />
+    <Compile Include="MasterModule.cs" />
+    <Compile Include="RestModule.cs" />
+    <Compile Include="ExecutionArgs.cs" />
+    <Compile Include="Config\IBootstrapperConfig.cs" />
+    <Compile Include="MainModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScheduledTasks\ISchedulerConfig.cs" />
+    <Compile Include="ScheduledTasks\ITaskConfigReader.cs" />
+    <Compile Include="ScheduledTasks\ITaskCronJobScheduler.cs" />
+    <Compile Include="ScheduledTasks\ITaskCronJobSchedulerConfig.cs" />
+    <Compile Include="ScheduledTasks\ITasksJobFactoryConfig.cs" />
+    <Compile Include="ScheduledTasks\LockedTask.cs" />
+    <Compile Include="ScheduledTasks\SchedulerConfig.cs" />
+    <Compile Include="ScheduledTasks\TaskConfigReader.cs" />
+    <Compile Include="ScheduledTasks\TaskCronJobScheduler.cs" />
+    <Compile Include="ScheduledTasks\TaskCronJobSchedulerConfig.cs" />
+    <Compile Include="ScheduledTasks\TaskConfig.cs" />
+    <Compile Include="ScheduledTasks\TaskFactory.cs" />
+    <Compile Include="ScheduledTasks\TasksJobFactory.cs" />
+    <Compile Include="ScheduledTasksModule.cs" />
+    <Compile Include="ScheduledTasks\TasksJobFactoryConfig.cs" />
+    <Compile Include="ScheduledTasks\TasksSchedulerComponent.cs" />
+    <Compile Include="Tasks\Backup\DeleteOldFiles.cs" />
+    <Compile Include="Tasks\Backup\DeleteOldFIlesConfig.cs" />
+    <Compile Include="Tasks\Backup\ZipFiles.cs" />
+    <Compile Include="Tasks\Backup\ZipFIlesConfig.cs" />
+    <Compile Include="Tasks\Composite\List.cs" />
+    <Compile Include="Tasks\Composite\ListConfig.cs" />
+    <Compile Include="Tasks\Composite\Parallel.cs" />
+    <Compile Include="Tasks\Composite\ParallelConfig.cs" />
+    <Compile Include="Tasks\MasterSlave\AwaitingTasks.cs" />
+    <Compile Include="Tasks\MasterSlave\Delegate.cs" />
+    <Compile Include="Tasks\MasterSlave\DelegateConfig.cs" />
+    <Compile Include="Tasks\MasterSlave\IAwaitingTasks.cs" />
+    <Compile Include="Tasks\WindowsService\StartWindowsServiceConfig.cs" />
+    <Compile Include="Tasks\WindowsService\ServiceManager.cs" />
+    <Compile Include="Tasks\WindowsService\StartWindowsService.cs" />
+    <Compile Include="Tasks\WindowsService\StopWindowsService.cs" />
+    <Compile Include="Tasks\WindowsService\StopWindowsServiceConfig.cs" />
+    <Compile Include="Tasks\WindowsService\WindowsServiceConfigBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Javelin.Base\Javelin.Base.csproj">
+      <Project>{CFC8185A-4553-4865-BA17-B676EBEC0FF9}</Project>
+      <Name>Javelin.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Copy of config.json" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

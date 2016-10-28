@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Javelin", "Javelin\Javelin.csproj", "{D7FB4F57-E7D5-43C0-B41D-554C03E5CA52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Javelin.Base", "Javelin.Base\Javelin.Base.csproj", "{CFC8185A-4553-4865-BA17-B676EBEC0FF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Javelin.Tasks.Perspectiv.Module", "Javelin.Tasks.Perspectiv.Module\Javelin.Tasks.Perspectiv.Module.csproj", "{E6FE7502-E400-4802-B8D2-74B9F3F94DFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7FB4F57-E7D5-43C0-B41D-554C03E5CA52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7FB4F57-E7D5-43C0-B41D-554C03E5CA52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7FB4F57-E7D5-43C0-B41D-554C03E5CA52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7FB4F57-E7D5-43C0-B41D-554C03E5CA52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFC8185A-4553-4865-BA17-B676EBEC0FF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFC8185A-4553-4865-BA17-B676EBEC0FF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFC8185A-4553-4865-BA17-B676EBEC0FF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFC8185A-4553-4865-BA17-B676EBEC0FF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6FE7502-E400-4802-B8D2-74B9F3F94DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6FE7502-E400-4802-B8D2-74B9F3F94DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6FE7502-E400-4802-B8D2-74B9F3F94DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6FE7502-E400-4802-B8D2-74B9F3F94DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
