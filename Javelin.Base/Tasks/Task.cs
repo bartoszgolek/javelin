@@ -26,23 +26,32 @@ namespace Javelin.Base.Tasks
 			get { return taskId; }
 		}
 
-		public abstract TaskResult Run();
+		protected abstract TaskResult DoTask();
 
-		public void Execute(JobExecutionContext context)
+		public TaskResult Run()
 		{
 			var logger = LogManager.GetLogger(GetType());
 			try
 			{
-				var taskResult = Run();
+				var taskResult = DoTask();
 				if (taskResult.Status == TaskResultStatus.Warning)
 					logger.Warn(taskResult.Description);
 				else if (taskResult.Status == TaskResultStatus.Failed)
 					logger.Error(taskResult.Description);
+
+				return taskResult;
 			}
 			catch (Exception ex)
 			{
-				logger.Error(string.Format("Error during running task '{0}.", TaskId), ex);
+				var message = string.Format("Error during running task '{0}.", TaskId);
+				logger.Error(message, ex);
+				return TaskResult.Failed(message);
 			}
+		}
+
+		public void Execute(JobExecutionContext context)
+		{
+			Run();
 		}
 	}
 }

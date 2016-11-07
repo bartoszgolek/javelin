@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using log4net;
 
-namespace Forcom.CDN.Wrapper.ServiceStack.Host
+namespace Javelin.Api.Host
 {
 	public class ServiceStackThreadPoolManager : IDisposable
 	{

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Javelin.Base.Config;
 using Javelin.Base.Tasks;
+using Javelin.Config;
 
 namespace Javelin.ScheduledTasks
 {
@@ -9,6 +11,11 @@ namespace Javelin.ScheduledTasks
 		public TaskCronJobSchedulerConfig(IConfigReader configReader)
 			: base(configReader)
 		{
+		}
+
+		public bool ShouldStartScheduler
+		{
+			get { return (BootstrapperMode)Enum.Parse(typeof(BootstrapperMode), configReader["mode"]) == BootstrapperMode.Master; }
 		}
 
 		public bool HasScheduler

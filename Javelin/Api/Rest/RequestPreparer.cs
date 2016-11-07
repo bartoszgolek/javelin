@@ -24,7 +24,7 @@ namespace Javelin.Api.Rest
 		{
 			var request = CreateRequest(uri);
 			if (writeToStream != null)
-				PreparePostRequest(request, writeToStream);
+				PreparePostRequest(request);
 			return request;
 		}
 
@@ -41,7 +41,7 @@ namespace Javelin.Api.Rest
 			return (int)TimeSpan.FromMinutes(2).TotalMilliseconds;
 		}
 
-		private void PreparePostRequest(WebRequest request, Action<Stream> writeToStream)
+		private void PreparePostRequest(WebRequest request)
 		{
 			PreparePostMethod(request);
 			PreparePostData(request, writeToStream);

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Javelin.Base.Tasks;
+using log4net;
 
 namespace Javelin.Tasks.Backup
 {
@@ -13,15 +14,21 @@ namespace Javelin.Tasks.Backup
 		private readonly int numberOfDays;
 		private readonly string regexFilter;
 
+		private readonly ILog logger;
+		private readonly Regex regex;
+
 		public DeleteOldFiles(string id, DeleteOldFilesConfig config)
 			: base(id, config)
 		{
 			directories = config.Directories;
 			numberOfDays = config.NumberOfDays;
 			regexFilter = config.RegexFilter;
+
+			logger = LogManager.GetLogger(GetType());
+			regex = new Regex(regexFilter);
 		}
 
-		public override TaskResult Run()
+		protected override TaskResult DoTask()
 		{
 			DeleteFiles();
 
@@ -30,19 +37,31 @@ namespace Javelin.Tasks.Backup
 
 		private void DeleteFiles()
 		{
+			logger.InfoFormat("Deleteing files matching pattern '{0}' older than: '{1}' days in:{2}",
+				regexFilter,
+				numberOfDays,
+				directories.Select(d => Environment.NewLine + " - " + d + ","));
+
 			foreach (var directory in directories)
 			{
-				var regex = new Regex(regexFilter);
-				var files = Directory.GetFiles(directory).ToList();
-				files = files.Where(f => regex.IsMatch(Path.GetFileName(f))).ToList();
+				logger.DebugFormat("Deleteing from: {0}", directory);
 
-				foreach (var file in files)
+				var files = Directory.GetFiles(directory)
+					.Where(f =>
+						{
+							var fileName = Path.GetFileName(f);
+							return fileName != null && regex.IsMatch(fileName);
+						})
+					.ToList();
+
+				foreach (var file in files.Where(f => File.GetCreationTime(f).Date.AddDays(numberOfDays) <= DateTime.Now.Date))
 				{
-					var creationTime = File.GetCreationTime(file);
-					if (creationTime.Date.AddDays(numberOfDays) <= DateTime.Now.Date)
-						File.Delete(file);
+					logger.DebugFormat("{0}", file);
+					File.Delete(file);
 				}
 			}
+
+			logger.Info("Deleteing files finished.");
 		}
 	}
 }

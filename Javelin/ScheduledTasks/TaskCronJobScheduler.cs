@@ -15,7 +15,7 @@ namespace Javelin.ScheduledTasks
 
 		public bool IsActive
 		{
-			get { return config != null && config.HasScheduler; }
+			get { return config != null && config.HasScheduler && config.ShouldStartScheduler; }
 		}
 
 		public void Start()
@@ -31,7 +31,18 @@ namespace Javelin.ScheduledTasks
 			foreach (ISchedulerConfig schedulerConfig in config.Scheduler)
 			{
 				string jobName = schedulerConfig.TaskId;
-				Type jobType = config.Tasks.Single(t => t.TaskId == jobName).TaskType;
+				if (string.IsNullOrEmpty(jobName))
+					Log.Warn("No task to run. Skipping.");
+
+				var task = config.Tasks.SingleOrDefault(t => t.TaskId == jobName);
+
+				if (task == null)
+				{
+					Log.ErrorFormat("Task '{0}' does not exists. Skipping.", jobName);
+					continue;
+				}
+
+				Type jobType = task.TaskType;
 				string jobGroup = jobName + "Group";
 				string cronExpression = schedulerConfig.CronExpression;
 

@@ -3,7 +3,6 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using Forcom.CDN.Wrapper.ServiceStack.Host;
 using log4net;
 using ServiceStack.Common.Web;
 using ServiceStack.Text;

@@ -19,6 +19,8 @@ namespace Javelin.Base.Scheduler
 		public AutofacSelfOwnedJob(Func<Owned<T>> jobFactory)
 		{
 			this.jobFactory = jobFactory;
+
+			logger = LogManager.GetLogger(GetType());
 		}
 
 		/// <summary>
@@ -39,12 +41,12 @@ namespace Javelin.Base.Scheduler
 			{
 				if (ex is JobExecutionException)
 					throw;
-				Logger.Error("Error while executing Cron IJob.", ex);
+				logger.Error("Error while executing Cron IJob.", ex);
 				throw new JobExecutionException(ex);
 			}
 		}
 
 		private readonly Func<Owned<T>> jobFactory;
-		private static readonly ILog Logger = LogManager.GetLogger(typeof(AutofacSelfOwnedJob<T>));
+		private readonly ILog logger;
 	}
 }

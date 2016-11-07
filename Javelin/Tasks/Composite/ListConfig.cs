@@ -12,6 +12,15 @@ namespace Javelin.Tasks.Composite
 		{
 		}
 
+		public bool BreakOnFail
+		{
+			get
+			{
+				var breakOnFail = configReader["breakOnFail"];
+				return breakOnFail == null || bool.Parse(breakOnFail);
+			}
+		}
+
 		public ITaskConfig[] TaskConfigs
 		{
 			get

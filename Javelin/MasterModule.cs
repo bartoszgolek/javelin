@@ -12,9 +12,11 @@ namespace Javelin
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
-			builder.RegisterType<MasterService>().As<IMasterService>();
 			builder.RegisterType<JavelinMasterServiceWrapper>();
-			builder.RegisterType<SlaveServiceClient>().As<ISlaveServiceClient>().SingleInstance();
+
+			builder.RegisterType<SlaveServiceClient>().As<ISlaveServiceClient>();
+			builder.RegisterType<MasterService>().As<IMasterService>();
+
 			builder.RegisterType<AwaitingTasks>().As<IAwaitingTasks>().SingleInstance();
 
 			builder.RegisterRestOperation<TaskFinished>(MethodVerbs.Post, "/task/finished/{DelegationId}");

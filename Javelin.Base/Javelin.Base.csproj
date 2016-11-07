@@ -63,7 +63,6 @@
     <Compile Include="Scheduler\AutofacSelfOwnedJob.cs" />
     <Compile Include="Scheduler\CronJobScheduler.cs" />
     <Compile Include="Scheduler\ICronJobSchedulerConfig.cs" />
-    <Compile Include="Scheduler\ILockedJobConfig.cs" />
     <Compile Include="Scheduler\LockedJob.cs" />
     <Compile Include="Scheduler\ScopedJob.cs" />
     <Compile Include="Tasks\ITaskConfig.cs" />

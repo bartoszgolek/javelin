@@ -2,26 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using Javelin.Base.Tasks;
+using log4net;
 
 namespace Javelin.Tasks.Composite
 {
 	internal class List : Task<ListConfig>
 	{
 		private readonly ITaskFactory taskFactory;
+		private readonly ILog logger;
 
 		public List(string id, ListConfig config, ITaskFactory taskFactory)
 			: base(id, config)
 		{
 			this.taskFactory = taskFactory;
+			logger = LogManager.GetLogger(GetType());
 		}
 
-		public override TaskResult Run()
+		protected override TaskResult DoTask()
 		{
-			var results = new List<TaskResult>();
-
 			var taskConfigs = config.TaskConfigs.ToList();
+			if (!taskConfigs.Any())
+				logger.InfoFormat("No tasks to run.");
 
-			taskConfigs.ForEach(tc => results.Add(taskFactory.CreateTask(tc).Run()));
+			logger.InfoFormat("Runnig task list: {0}",
+				string.Join("", taskConfigs.Select(t => Environment.NewLine + " - " + t.GetTaskInfo())));
+
+			var results = new List<TaskResult>();
+			taskConfigs.ForEach(tc =>
+				{
+					var taskInfo = tc.GetTaskInfo();
+
+					logger.DebugFormat("Creating task: {0}", taskInfo);
+					var task = taskFactory.CreateTask(tc);
+
+					logger.DebugFormat("Runnig: {0}", taskInfo);
+					results.Add(task.Run());
+				});
+
+			logger.DebugFormat("Finished.");
 
 			var description = string.Join(Environment.NewLine, results.Select(r => r.Description).Where(s => !string.IsNullOrWhiteSpace(s)));
 			if (results.All(r => r.Status == TaskResultStatus.Success))

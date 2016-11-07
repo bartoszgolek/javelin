@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Javelin.Base.Tasks;
+using log4net;
 
 namespace Javelin.Tasks.Composite
 {
@@ -12,18 +13,40 @@ namespace Javelin.Tasks.Composite
 			: base(id, config)
 		{
 			this.taskFactory = taskFactory;
+			logger = LogManager.GetLogger(GetType());
 		}
 
-		public override TaskResult Run()
+		protected override TaskResult DoTask()
 		{
+			const string noTasksMessage = "No tasks to run.";
+
 			var results = new List<TaskResult>();
 
 			var taskConfigs = config.TaskConfigs.ToList();
+			if (!taskConfigs.Any())
+			{
+				logger.InfoFormat(noTasksMessage);
+				return TaskResult.Warning(noTasksMessage);
+			}
 
-			var tasks = taskConfigs.Select(tc => new Task(() => results.Add(taskFactory.CreateTask(tc).Run()))).ToList();
+			logger.InfoFormat("Runnig parallel tasks: {0}",
+				string.Join("", taskConfigs.Select(t => Environment.NewLine + " - " + t.GetTaskInfo())));
+
+			var tasks = taskConfigs.Select(tc => new Task(() =>
+				{
+					var taskInfo = tc.GetTaskInfo();
+
+					logger.DebugFormat("Creating task: {0}", taskInfo);
+					var task = taskFactory.CreateTask(tc);
+
+					logger.DebugFormat("Runnig: {0}", taskInfo);
+					results.Add(task.Run());
+				})).ToList();
 
 			tasks.ForEach(t => t.Start());
 			Task.WaitAll(tasks.ToArray());
+
+			logger.DebugFormat("Finished.");
 
 			var description = string.Join(Environment.NewLine, results.Select(r => r.Description));
 			if (results.All(r => r.Status == TaskResultStatus.Success))
@@ -36,5 +59,6 @@ namespace Javelin.Tasks.Composite
 		}
 
 		private readonly ITaskFactory taskFactory;
+		private readonly ILog logger;
 	}
 }

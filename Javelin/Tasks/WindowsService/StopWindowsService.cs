@@ -6,15 +6,16 @@ namespace Javelin.Tasks.WindowsService
 {
 	public class StopWindowsService : Task<StopWindowsServiceConfig>
 	{
+		private readonly ILog logger;
+
 		public StopWindowsService(string id, StopWindowsServiceConfig config)
 			: base(id, config)
 		{
+			logger = LogManager.GetLogger(GetType());
 		}
 
-		public override TaskResult Run()
+		protected override TaskResult DoTask()
 		{
-			var logger = LogManager.GetLogger(GetType());
-
 			try
 			{
 				logger.InfoFormat("Stopping service '{0}'", config.ServiceName);

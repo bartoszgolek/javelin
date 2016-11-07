@@ -12,6 +12,8 @@ namespace Javelin.Base.Scheduler
 		{
 			this.scheduler = scheduler;
 			this.config = config;
+
+			log = LogManager.GetLogger(GetType());
 		}
 
 		public bool IsActive
@@ -45,7 +47,7 @@ namespace Javelin.Base.Scheduler
 			var job = new JobDetail(jobName, typeof(TJob));
 			scheduler.ScheduleJob(job, trigger);
 
-			Log.InfoFormat("{0} scheduled with cron expression {1}", jobName, cronExpression);
+			log.InfoFormat("{0} scheduled with cron expression {1}", jobName, cronExpression);
 		}
 
 		private void ScheduleImmediateJob()
@@ -66,7 +68,7 @@ namespace Javelin.Base.Scheduler
 
 		private readonly ICronJobSchedulerConfig<TJobConfig> config;
 		private readonly IScheduler scheduler;
-		private static readonly ILog Log = LogManager.GetLogger(typeof(CronJobScheduler<TJob, TJobConfig>));
+		private readonly ILog log;
 	}
 
 	public class CronJobScheduler<T> : CronJobScheduler<T, T>

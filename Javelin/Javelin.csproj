@@ -158,6 +158,7 @@
     <Compile Include="Tasks\Composite\ListConfig.cs" />
     <Compile Include="Tasks\Composite\Parallel.cs" />
     <Compile Include="Tasks\Composite\ParallelConfig.cs" />
+    <Compile Include="Tasks\Composite\TaskConfigExtension.cs" />
     <Compile Include="Tasks\MasterSlave\AwaitingTasks.cs" />
     <Compile Include="Tasks\MasterSlave\Delegate.cs" />
     <Compile Include="Tasks\MasterSlave\DelegateConfig.cs" />
@@ -180,7 +181,6 @@
     <None Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Copy of config.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
