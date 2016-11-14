@@ -65,9 +65,11 @@
     <Compile Include="Scheduler\ICronJobSchedulerConfig.cs" />
     <Compile Include="Scheduler\LockedJob.cs" />
     <Compile Include="Scheduler\ScopedJob.cs" />
+    <Compile Include="Tasks\IPredefinedTasksConfig.cs" />
     <Compile Include="Tasks\ITaskConfig.cs" />
     <Compile Include="Tasks\ITaskFactory.cs" />
     <Compile Include="Tasks\Task.cs" />
+    <Compile Include="Tasks\TaskConfigExtension.cs" />
     <Compile Include="Tasks\TaskResult.cs" />
     <Compile Include="Tasks\TaskResultStatus.cs" />
   </ItemGroup>

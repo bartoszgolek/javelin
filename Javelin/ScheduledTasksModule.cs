@@ -2,6 +2,7 @@
 using Autofac;
 using Javelin.Base.Tasks;
 using Javelin.ScheduledTasks;
+using Javelin.Tasks;
 using Javelin.Tasks.Backup;
 using Javelin.Tasks.Composite;
 using Javelin.Tasks.WindowsService;
@@ -32,7 +33,10 @@ namespace Javelin
 				.As<ITaskCronJobScheduler>();
 
 			builder.RegisterType<TaskCronJobSchedulerConfig>().As<ITaskCronJobSchedulerConfig>();
-			builder.RegisterType<TasksJobFactoryConfig>().As<ITasksJobFactoryConfig>();
+			builder.RegisterType<TasksJobFactoryConfig>()
+				.As<ITasksJobFactoryConfig>()
+				.As<IPredefinedTasksConfig>()
+				.As<ISchedulersConfig>();
 
 			RegisterTaskTypes(builder);
 		}
@@ -46,6 +50,8 @@ namespace Javelin
 			builder.RegisterType<DeleteOldFiles>();
 			builder.RegisterType<StartWindowsService>();
 			builder.RegisterType<StopWindowsService>();
+			builder.RegisterType<PredefinedTask>();
+			builder.RegisterType<EmptyTask>();
 		}
 	}
 }

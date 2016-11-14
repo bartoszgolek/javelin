@@ -1,7 +1,7 @@
 ﻿using Javelin.Base.Tasks;
 using Javelin.Tasks.MasterSlave;
 
-namespace Javelin.Api.Master
+namespace Javelin.Api.WebService.Master
 {
 	internal class MasterService : IMasterService
 	{

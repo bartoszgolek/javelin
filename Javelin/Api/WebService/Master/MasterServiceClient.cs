@@ -2,7 +2,7 @@
 using Javelin.Api.Rest;
 using Javelin.Base.Tasks;
 
-namespace Javelin.Api.Master
+namespace Javelin.Api.WebService.Master
 {
 	public class MasterServiceClient : RestClient, IMasterServiceClient
 	{

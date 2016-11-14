@@ -1,6 +1,6 @@
 ﻿using Javelin.Base.Tasks;
 
-namespace Javelin.Api.Master
+namespace Javelin.Api.WebService.Master
 {
 	public interface IMasterService
 	{

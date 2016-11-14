@@ -51,6 +51,10 @@ namespace Javelin.Base.Config
 		public IConfigReader[] GetSubconfigs(string path)
 		{
 			var jToken = GetToken(path);
+
+			if (jToken == null)
+				return new IConfigReader[0];
+
 			if (!(jToken is JArray))
 				throw new ArgumentException(string.Format("Cannot get configs for path '{0}'. Target element is not an array.", path), "path");
 

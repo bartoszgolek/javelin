@@ -1,1044 +1,1193 @@
 ﻿{
-	"mode" : "Master",
+	"mode" : "Slave",
 	"rootUri" : "http://*:6959/",
 	"masterUri" : "http://localhost:6959/",
 	"scheduler" : [{
-			"cronExpression" : "* 30 07 * * ?",
+			"cronExpression" : "00 43 09 * * ?",
 			"taskId" : "restartServicesAndMakeLogBackup",
 			"lock" : true
 		}
 	],
 	"tasks" : [{
-			"id" : "restartServicesAndMakeLogBackup",
+			"id" : "stopPerspectives",
 			"type" : "Javelin.Tasks.Composite.List",
 			"configuration" : {
+				"breakOnFail" : false,
 				"tasks" : [{
-						"id" : "stopPerspectivJobs",
-						"type" : "Javelin.Tasks.Composite.Parallel",
+					"id" : "stopPerspectivJobs",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+								"id" : "stopPerspectiv890Jobs",
+								"type" : "Javelin.Tasks.Perspectiv.StopPerspectivJobs, Javelin.Tasks.Perspectiv.Module",
+								"configuration" : {
+									"perspectivUri" : "http://localhost:8901/"
+								}
+							}, {
+								"id" : "stopPerspectiv891Jobs",
+								"type" : "Javelin.Tasks.Perspectiv.StopPerspectivJobs, Javelin.Tasks.Perspectiv.Module",
+								"configuration" : {
+									"perspectivUri" : "http://localhost:8911/"
+								}
+							}, {
+								"id" : "stopPerspectiv990Jobs",
+								"type" : "Javelin.Tasks.Perspectiv.StopPerspectivJobs, Javelin.Tasks.Perspectiv.Module",
+								"configuration" : {
+									"perspectivUri" : "http://localhost:9901/"
+								}
+							}
+						]
+					}
+				}, {
+					"id" : "stopPerspectivServices",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+								"id" : "stopPerspectiv890Service",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "PerspectivServer890"
+								}
+							}, {
+								"id" : "stopPerspectiv891Service",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "PerspectivServer891"
+								}
+							}, {
+								"id" : "stopPerspectiv990Service",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "PerspectivServer990"
+								}
+							}, {
+								"id" : "stopPerspectiv1210Service",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "PerspectivServer1210"
+								}
+							}, {
+								"id" : "stopPerspectiv1211Service",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "PerspectivServer1211"
+								}
+							}, {
+								"id" : "stopPerspectiv1212Service",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "PerspectivServer1212"
+								}
+							}, {
+								"id" : "stopPerspectiv1213Service",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "PerspectivServer1213"
+								}
+							}, {
+								"id" : "stopPerspectiv1214Service",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "PerspectivServer1214"
+								}
+							}
+						]
+					}
+				}]
+			}
+		},{
+			"id" : "backupPerspectivLogs",
+			"type" : "Javelin.Tasks.Composite.List",
+			"configuration" : {
+				"breakOnFail" : true,
+				"tasks" : [{
+						"id" : "zipPerspectivLogs",
+						"type" : "Javelin.Tasks.Backup.ZipFiles",
 						"configuration" : {
-							"tasks" : [{
-									"id" : "stopPerspectiv890Jobs",
-									"type" : "Javelin.Tasks.Perspectiv.StopPerspectivJobs, Javelin.Tasks.Perspectiv.Module",
-									"configuration" : {
-										"perspectivUri" : "http://localhost:890/"
-									}
+							"deleteFiles" : true,
+							"archiveTemplate" : "d:\\ApplicationData\\Logs\\backup\\perspectiv_{timestamp}.zip",
+							"files" : [{
+									"path" : "F:\\Logs\\Perspectiv890\\Server.log",
+									"archivePath" : "Perspectiv890\\Server.log"
 								}, {
-									"id" : "stopPerspectiv891Jobs",
-									"type" : "Javelin.Tasks.Perspectiv.StopPerspectivJobs, Javelin.Tasks.Perspectiv.Module",
-									"configuration" : {
-										"perspectivUri" : "http://localhost:891/"
-									}
+									"path" : "F:\\Logs\\Perspectiv890\\ESB.log",
+									"archivePath" : "Perspectiv890\\ESB.log"
 								}, {
-									"id" : "stopPerspectiv990Jobs",
-									"type" : "Javelin.Tasks.Perspectiv.StopPerspectivJobs, Javelin.Tasks.Perspectiv.Module",
-									"configuration" : {
-										"perspectivUri" : "http://localhost:990/"
-									}
+									"path" : "F:\\Logs\\Perspectiv890\\ExportJob.log",
+									"archivePath" : "Perspectiv890\\ExportJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv890\\ObjectPool.log",
+									"archivePath" : "Perspectiv890\\ObjectPool.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv890\\ExportCdnDaoJob.log",
+									"archivePath" : "Perspectiv890\\ExportCdnDaoJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv890\\XLService.log",
+									"archivePath" : "Perspectiv890\\XLService.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv891\\Server.log",
+									"archivePath" : "Perspectiv891\\Server.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv891\\ESB.log",
+									"archivePath" : "Perspectiv891\\ESB.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv891\\ExportJob.log",
+									"archivePath" : "Perspectiv891\\ExportJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv891\\ObjectPool.log",
+									"archivePath" : "Perspectiv891\\ObjectPool.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv891\\ExportCdnDaoJob.log",
+									"archivePath" : "Perspectiv891\\ExportCdnDaoJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv891\\XLService.log",
+									"archivePath" : "Perspectiv891\\XLService.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv990\\Server.log",
+									"archivePath" : "Perspectiv990\\Server.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv990\\ESB.log",
+									"archivePath" : "Perspectiv990\\ESB.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv990\\ExportJob.log",
+									"archivePath" : "Perspectiv990\\ExportJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv990\\ObjectPool.log",
+									"archivePath" : "Perspectiv990\\ObjectPool.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv990\\ExportCdnDaoJob.log",
+									"archivePath" : "Perspectiv990\\ExportCdnDaoJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv990\\XLService.log",
+									"archivePath" : "Perspectiv990\\XLService.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1210\\Server.log",
+									"archivePath" : "Perspectiv1210\\Server.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1210\\ESB.log",
+									"archivePath" : "Perspectiv1210\\ESB.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1210\\ExportJob.log",
+									"archivePath" : "Perspectiv1210\\ExportJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1210\\ObjectPool.log",
+									"archivePath" : "Perspectiv1210\\ObjectPool.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1210\\ExportCdnDaoJob.log",
+									"archivePath" : "Perspectiv1210\\ExportCdnDaoJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1210\\XLService.log",
+									"archivePath" : "Perspectiv1210\\XLService.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1211\\Server.log",
+									"archivePath" : "Perspectiv1211\\Server.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1211\\ESB.log",
+									"archivePath" : "Perspectiv1211\\ESB.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1211\\ExportJob.log",
+									"archivePath" : "Perspectiv1211\\ExportJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1211\\ObjectPool.log",
+									"archivePath" : "Perspectiv1211\\ObjectPool.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1211\\ExportCdnDaoJob.log",
+									"archivePath" : "Perspectiv1211\\ExportCdnDaoJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1211\\XLService.log",
+									"archivePath" : "Perspectiv1211\\XLService.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1212\\Server.log",
+									"archivePath" : "Perspectiv1212\\Server.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1212\\ESB.log",
+									"archivePath" : "Perspectiv1212\\ESB.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1212\\ExportJob.log",
+									"archivePath" : "Perspectiv1212\\ExportJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1212\\ObjectPool.log",
+									"archivePath" : "Perspectiv1212\\ObjectPool.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1212\\ExportCdnDaoJob.log",
+									"archivePath" : "Perspectiv1212\\ExportCdnDaoJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1212\\XLService.log",
+									"archivePath" : "Perspectiv1212\\XLService.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1213\\Server.log",
+									"archivePath" : "Perspectiv1213\\Server.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1213\\ESB.log",
+									"archivePath" : "Perspectiv1213\\ESB.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1213\\ExportJob.log",
+									"archivePath" : "Perspectiv1213\\ExportJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1213\\ObjectPool.log",
+									"archivePath" : "Perspectiv1213\\ObjectPool.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1213\\ExportCdnDaoJob.log",
+									"archivePath" : "Perspectiv1213\\ExportCdnDaoJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1213\\XLService.log",
+									"archivePath" : "Perspectiv1213\\XLService.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1214\\Server.log",
+									"archivePath" : "Perspectiv1214\\Server.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1214\\ESB.log",
+									"archivePath" : "Perspectiv1214\\ESB.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1214\\ExportJob.log",
+									"archivePath" : "Perspectiv1214\\ExportJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1214\\ObjectPool.log",
+									"archivePath" : "Perspectiv1214\\ObjectPool.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1214\\ExportCdnDaoJob.log",
+									"archivePath" : "Perspectiv1214\\ExportCdnDaoJob.log"
+								}, {
+									"path" : "F:\\Logs\\Perspectiv1214\\XLService.log",
+									"archivePath" : "Perspectiv1214\\XLService.log"
 								}
 							]
 						}
 					}, {
-						"id" : "stopPerspectivServices",
-						"type" : "Javelin.Tasks.Composite.Parallel",
+						"id" : "deleteOldPerspectivArchives",
+						"type" : "Javelin.Tasks.Backup.DeleteOldFiles",
 						"configuration" : {
-							"tasks" : [{
-									"id" : "stopPerspectiv890Service",
-									"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer890"
-									}
-								}, {
-									"id" : "stopPerspectiv891Service",
-									"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer891"
-									}
-								}, {
-									"id" : "stopPerspectiv990Service",
-									"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer990"
-									}
-								}, {
-									"id" : "stopPerspectiv1210Service",
-									"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1210"
-									}
-								}, {
-									"id" : "stopPerspectiv1211Service",
-									"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1211"
-									}
-								}, {
-									"id" : "stopPerspectiv1212Service",
-									"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1212"
-									}
-								}, {
-									"id" : "stopPerspectiv1213Service",
-									"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1213"
-									}
-								}, {
-									"id" : "stopPerspectiv1214Service",
-									"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1214"
-									}
-								}
-							]
-						}
-					}, {
-						"id" : "stopWrappersAndBackupPerspectivLogs",
-						"type" : "Javelin.Tasks.Composite.Parallel",
-						"configuration" : {
-							"tasks" : [{
-									"id" : "stopWrappers",
-									"type" : "Javelin.Tasks.Composite.Parallel",
-									"configuration" : {
-										"tasks" : [{
-												"id" : "delegateStopAndBackup161wrappers",
-												"type" : "Javelin.Tasks.MasterSlave.Delegate",
-												"configuration" : {
-													"uri": "http://192.168.250.161:6960",
-													"timeout": "00:02:00",
-													"task" : {
-														"id" : "restartAndBackup161wrappers",
-														"type" : "Javelin.Tasks.Composite.List",
-														"configuration" : {
-															"tasks" : [ {
-																	"id" : "stop161wrappers",
-																	"type" : "",
-																	"configuration" : {
-																		"taks" : [{
-																				"id" : "stopWrapper161-8081WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8081"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8082WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8082"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8083WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8083"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8084WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8084"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8085WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8085"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8086WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8086"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8087WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8087"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8088WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8088"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8089WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8089"
-																				}
-																			}, {
-																				"id" : "stopWrapper161-8090WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8090"
-																				}
-																			}
-																		]
-																	}
-																}, {
-																	"id" : "backupWrapper161Logs",
-																	"type" : "Javelin.Tasks.Composite.List",
-																	"configuration" : {
-																		"tasks" : [{
-																				"id" : "zipWrapper161Logs",
-																				"type" : "Javelin.Tasks.Backup.ZipFile",
-																				"configuration" : {
-																					"deleteFiles" : true,
-																					"archiveTemplate" : "d:\\Logs\\backup\\wrapper_{timestamp}.zip",
-																					"files" : [{
-																							"path" : "D:\\Logs\\Wrapper8081\\wrapper.log",
-																							"archivePath" : "Wrapper8081\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8082\\wrapper.log",
-																							"archivePath" : "Wrapper8082\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8083\\wrapper.log",
-																							"archivePath" : "Wrapper8083\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8084\\wrapper.log",
-																							"archivePath" : "Wrapper8084\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8085\\wrapper.log",
-																							"archivePath" : "Wrapper8085\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8086\\wrapper.log",
-																							"archivePath" : "Wrapper8086\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8087\\wrapper.log",
-																							"archivePath" : "Wrapper8087\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8088\\wrapper.log",
-																							"archivePath" : "Wrapper8088\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8089\\wrapper.log",
-																							"archivePath" : "Wrapper8089\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8090\\wrapper.log",
-																							"archivePath" : "Wrapper8090\\wrapper.log"
-																						}
-																					]
-																				}
-																			}, {
-																				"id" : "deleteOldWrapper161Archives",
-																				"type" : "Javelin.Tasks.Backup.DeleteOldFiles",
-																				"configuration" : {
-																					"numberOfDays" : 20,
-																					"regexFilter" : "wrapper_[0-9]{8}_[0-9]{4}\\.zip",
-																					"directories" : [
-																						"d:\\Logs\\backup"
-																					]
-																				}
-																			}
-																		]
-																	}
-																}, {
-																	"id" : "start161wrappers",
-																	"type" : "",
-																	"configuration" : {
-																		"taks" : [{
-																				"id" : "startWrapper161-8081WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8081"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8082WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8082"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8083WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"serviceName" : "Wrapper8083"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8084WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8084"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8085WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"serviceName" : "Wrapper8085"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8086WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8086"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8087WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8087"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8088WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8088"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8089WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8089"
-																				}
-																			}, {
-																				"id" : "startWrapper161-8090WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8090"
-																				}
-																			}
-																		]
-																	}
-																}
-															]
-														}
-													}
-												}
-											}, {
-												"id" : "delegateStopAndBackup162wrappers",
-												"type" : "Javelin.Tasks.MasterSlave.Delegate",
-												"configuration" : {
-													"uri": "http://192.168.250.162:6960",
-													"timeout": "00:02:00",
-													"task" : {
-														"id" : "restartAndBackup162wrappers",
-														"type" : "Javelin.Tasks.Composite.List",
-														"configuration" : {
-															"tasks" : [ {
-																	"id" : "stop162wrappers",
-																	"type" : "",
-																	"configuration" : {
-																		"taks" : [{
-																				"id" : "stopWrapper162-8081WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8081"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8082WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8082"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8083WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8083"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8084WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8084"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8085WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8085"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8086WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8086"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8087WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8087"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8088WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8088"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8089WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8089"
-																				}
-																			}, {
-																				"id" : "stopWrapper162-8090WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8090"
-																				}
-																			}
-																		]
-																	}
-																}, {
-																	"id" : "backupWrapper162Logs",
-																	"type" : "Javelin.Tasks.Composite.List",
-																	"configuration" : {
-																		"tasks" : [{
-																				"id" : "zipWrapper162Logs",
-																				"type" : "Javelin.Tasks.Backup.ZipFile",
-																				"configuration" : {
-																					"deleteFiles" : true,
-																					"archiveTemplate" : "d:\\Logs\\backup\\wrapper_{timestamp}.zip",
-																					"files" : [{
-																							"path" : "D:\\Logs\\Wrapper8081\\wrapper.log",
-																							"archivePath" : "Wrapper8081\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8082\\wrapper.log",
-																							"archivePath" : "Wrapper8082\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8083\\wrapper.log",
-																							"archivePath" : "Wrapper8083\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8084\\wrapper.log",
-																							"archivePath" : "Wrapper8084\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8085\\wrapper.log",
-																							"archivePath" : "Wrapper8085\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8086\\wrapper.log",
-																							"archivePath" : "Wrapper8086\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8087\\wrapper.log",
-																							"archivePath" : "Wrapper8087\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8088\\wrapper.log",
-																							"archivePath" : "Wrapper8088\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8089\\wrapper.log",
-																							"archivePath" : "Wrapper8089\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper8090\\wrapper.log",
-																							"archivePath" : "Wrapper8090\\wrapper.log"
-																						}
-																					]
-																				}
-																			}, {
-																				"id" : "deleteOldWrapper162Archives",
-																				"type" : "Javelin.Tasks.Backup.DeleteOldFiles",
-																				"configuration" : {
-																					"numberOfDays" : 20,
-																					"regexFilter" : "wrapper_[0-9]{8}_[0-9]{4}\\.zip",
-																					"directories" : [
-																						"d:\\Logs\\backup"
-																					]
-																				}
-																			}
-																		]
-																	}
-																}, {
-																	"id" : "start162wrappers",
-																	"type" : "",
-																	"configuration" : {
-																		"taks" : [{
-																				"id" : "startWrapper162-8081WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8081"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8082WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8082"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8083WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8083"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8084WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8084"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8085WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8085"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8086WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8086"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8087WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8087"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8088WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8088"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8089WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8089"
-																				}
-																			}, {
-																				"id" : "startWrapper162-8090WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper8090"
-																				}
-																			}
-																		]
-																	}
-																}
-															]
-														}
-													}
-												}
-											}, {
-												"id" : "delegateStopAndBackup163wrappers",
-												"type" : "Javelin.Tasks.MasterSlave.Delegate",
-												"configuration" : {
-													"uri": "http://192.168.250.163:6960",
-													"timeout": "00:02:00",
-													"task" : {
-														"id" : "restartAndBackup163wrappers",
-														"type" : "Javelin.Tasks.Composite.List",
-														"configuration" : {
-															"tasks" : [ {
-																	"id" : "stop163wrappers",
-																	"type" : "",
-																	"configuration" : {
-																		"taks" : [{
-																				"id" : "stopWrapper163-12000WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12000"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12001WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12001"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12004WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12004"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12010WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12010"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12013WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12013"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12033WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12033"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12057WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12057"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12208WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12208"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12223WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12223"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12243WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12243"
-																				}
-																			}, {
-																				"id" : "stopWrapper163-12484WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12484"
-																				}
-																			}
-																		]
-																	}
-																}, {
-																	"id" : "backupWrapper163Logs",
-																	"type" : "Javelin.Tasks.Composite.List",
-																	"configuration" : {
-																		"tasks" : [{
-																				"id" : "zipWrapper163Logs",
-																				"type" : "Javelin.Tasks.Backup.ZipFile",
-																				"configuration" : {
-																					"deleteFiles" : true,
-																					"archiveTemplate" : "d:\\Logs\\backup\\wrapper_{timestamp}.zip",
-																					"files" : [{
-																							"path" : "D:\\Logs\\Wrapper12000\\wrapper.log",
-																							"archivePath" : "Wrapper12000\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12001\\wrapper.log",
-																							"archivePath" : "Wrapper12001\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12004\\wrapper.log",
-																							"archivePath" : "Wrapper12004\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12010\\wrapper.log",
-																							"archivePath" : "Wrapper12010\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12013\\wrapper.log",
-																							"archivePath" : "Wrapper12013\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12033\\wrapper.log",
-																							"archivePath" : "Wrapper12033\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12057\\wrapper.log",
-																							"archivePath" : "Wrapper12057\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12208\\wrapper.log",
-																							"archivePath" : "Wrapper12208\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12223\\wrapper.log",
-																							"archivePath" : "Wrapper12223\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12243\\wrapper.log",
-																							"archivePath" : "Wrapper12243\\wrapper.log"
-																						}, {
-																							"path" : "D:\\Logs\\Wrapper12484\\wrapper.log",
-																							"archivePath" : "Wrapper12484\\wrapper.log"
-																						}
-																					]
-																				}
-																			}, {
-																				"id" : "deleteOldWrapper163Archives",
-																				"type" : "Javelin.Tasks.Backup.DeleteOldFiles",
-																				"configuration" : {
-																					"numberOfDays" : 20,
-																					"regexFilter" : "wrapper_[0-9]{8}_[0-9]{4}\\.zip",
-																					"directories" : [
-																						"d:\\Logs\\backup"
-																					]
-																				}
-																			}
-																		]
-																	}
-																}, {
-																	"id" : "start163wrappers",
-																	"type" : "",
-																	"configuration" : {
-																		"taks" : [{
-																				"id" : "startWrapper163-12000WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12000"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12001WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12001"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12004WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12004"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12010WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12010"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12013WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12013"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12033WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12033"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12057WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12057"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12208WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12208"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12223WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12223"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12243WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12243"
-																				}
-																			}, {
-																				"id" : "startWrapper163-12484WrapperService",
-																				"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-																				"configuration" : {
-																					"timeout": "00:02:00",
-																					"serviceName" : "Wrapper12484"
-																				}
-																			}
-																		]
-																	}
-																}
-															]
-														}
-													}
-												}
-											}
-										]
-									}
-								}, {
-									"id" : "backupPerspectivLogs",
-									"type" : "Javelin.Tasks.Composite.List",
-									"configuration" : {
-										"tasks" : [{
-												"id" : "zipPerspectivLogs",
-												"type" : "Javelin.Tasks.Backup.ZipFiles",
-												"configuration" : {
-													"deleteFiles" : true,
-													"archiveTemplate" : "d:\\ApplicationData\\Logs\\backup\\perspectiv_{timestamp}.zip",
-													"files" : [{
-															"path" : "F:\\Logs\\Perspectiv890\\Server.log",
-															"archivePath" : "Perspectiv890\\Server.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv890\\ESB.log",
-															"archivePath" : "Perspectiv890\\ESB.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv890\\ExportJob.log",
-															"archivePath" : "Perspectiv890\\ExportJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv890\\ObjectPool.log",
-															"archivePath" : "Perspectiv890\\ObjectPool.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv890\\ExportCdnDaoJob.log",
-															"archivePath" : "Perspectiv890\\ExportCdnDaoJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv890\\XLService.log",
-															"archivePath" : "Perspectiv890\\XLService.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv891\\Server.log",
-															"archivePath" : "Perspectiv891\\Server.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv891\\ESB.log",
-															"archivePath" : "Perspectiv891\\ESB.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv891\\ExportJob.log",
-															"archivePath" : "Perspectiv891\\ExportJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv891\\ObjectPool.log",
-															"archivePath" : "Perspectiv891\\ObjectPool.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv891\\ExportCdnDaoJob.log",
-															"archivePath" : "Perspectiv891\\ExportCdnDaoJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv891\\XLService.log",
-															"archivePath" : "Perspectiv891\\XLService.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv990\\Server.log",
-															"archivePath" : "Perspectiv990\\Server.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv990\\ESB.log",
-															"archivePath" : "Perspectiv990\\ESB.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv990\\ExportJob.log",
-															"archivePath" : "Perspectiv990\\ExportJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv990\\ObjectPool.log",
-															"archivePath" : "Perspectiv990\\ObjectPool.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv990\\ExportCdnDaoJob.log",
-															"archivePath" : "Perspectiv990\\ExportCdnDaoJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv990\\XLService.log",
-															"archivePath" : "Perspectiv990\\XLService.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1210\\Server.log",
-															"archivePath" : "Perspectiv1210\\Server.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1210\\ESB.log",
-															"archivePath" : "Perspectiv1210\\ESB.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1210\\ExportJob.log",
-															"archivePath" : "Perspectiv1210\\ExportJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1210\\ObjectPool.log",
-															"archivePath" : "Perspectiv1210\\ObjectPool.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1210\\ExportCdnDaoJob.log",
-															"archivePath" : "Perspectiv1210\\ExportCdnDaoJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1210\\XLService.log",
-															"archivePath" : "Perspectiv1210\\XLService.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1211\\Server.log",
-															"archivePath" : "Perspectiv1211\\Server.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1211\\ESB.log",
-															"archivePath" : "Perspectiv1211\\ESB.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1211\\ExportJob.log",
-															"archivePath" : "Perspectiv1211\\ExportJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1211\\ObjectPool.log",
-															"archivePath" : "Perspectiv1211\\ObjectPool.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1211\\ExportCdnDaoJob.log",
-															"archivePath" : "Perspectiv1211\\ExportCdnDaoJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1211\\XLService.log",
-															"archivePath" : "Perspectiv1211\\XLService.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1212\\Server.log",
-															"archivePath" : "Perspectiv1212\\Server.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1212\\ESB.log",
-															"archivePath" : "Perspectiv1212\\ESB.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1212\\ExportJob.log",
-															"archivePath" : "Perspectiv1212\\ExportJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1212\\ObjectPool.log",
-															"archivePath" : "Perspectiv1212\\ObjectPool.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1212\\ExportCdnDaoJob.log",
-															"archivePath" : "Perspectiv1212\\ExportCdnDaoJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1212\\XLService.log",
-															"archivePath" : "Perspectiv1212\\XLService.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1213\\Server.log",
-															"archivePath" : "Perspectiv1213\\Server.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1213\\ESB.log",
-															"archivePath" : "Perspectiv1213\\ESB.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1213\\ExportJob.log",
-															"archivePath" : "Perspectiv1213\\ExportJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1213\\ObjectPool.log",
-															"archivePath" : "Perspectiv1213\\ObjectPool.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1213\\ExportCdnDaoJob.log",
-															"archivePath" : "Perspectiv1213\\ExportCdnDaoJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1213\\XLService.log",
-															"archivePath" : "Perspectiv1213\\XLService.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1214\\Server.log",
-															"archivePath" : "Perspectiv1214\\Server.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1214\\ESB.log",
-															"archivePath" : "Perspectiv1214\\ESB.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1214\\ExportJob.log",
-															"archivePath" : "Perspectiv1214\\ExportJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1214\\ObjectPool.log",
-															"archivePath" : "Perspectiv1214\\ObjectPool.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1214\\ExportCdnDaoJob.log",
-															"archivePath" : "Perspectiv1214\\ExportCdnDaoJob.log"
-														}, {
-															"path" : "F:\\Logs\\Perspectiv1214\\XLService.log",
-															"archivePath" : "Perspectiv1214\\XLService.log"
-														}
-													]
-												}
-											}, {
-												"id" : "deleteOldPerspectivArchives",
-												"type" : "Javelin.Tasks.Backup.DeleteOldFiles",
-												"configuration" : {
-													"numberOfDays" : 20,
-													"regexFilter" : "perspectiv_[0-9]{8}_[0-9]{4}\\.zip",
-													"directories" : [
-														"d:\\ApplicationData\\Logs\\backup"
-													]
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}, {
-						"id" : "startPerspectivServices",
-						"type" : "Javelin.Tasks.Composite.Parallel",
-						"configuration" : {
-							"tasks" : [{
-									"id" : "startPerspectiv890Service",
-									"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer890"
-									}
-								}, {
-									"id" : "startPerspectiv891Service",
-									"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer891"
-									}
-								}, {
-									"id" : "startPerspectiv990Service",
-									"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer990"
-									}
-								}, {
-									"id" : "startPerspectiv1210Service",
-									"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1210"
-									}
-								}, {
-									"id" : "startPerspectiv1211Service",
-									"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1211"
-									}
-								}, {
-									"id" : "startPerspectiv1212Service",
-									"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1212"
-									}
-								}, {
-									"id" : "startPerspectiv1213Service",
-									"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1213"
-									}
-								}, {
-									"id" : "startPerspectiv1214Service",
-									"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
-									"configuration" : {
-										"timeout": "00:02:00",
-										"serviceName" : "PerspectivServer1214"
-									}
-								}
+							"numberOfDays" : 20,
+							"regexFilter" : "perspectiv_[0-9]{8}_[0-9]{4}\\.zip",
+							"directories" : [
+								"d:\\ApplicationData\\Logs\\backup"
 							]
 						}
 					}
 				]
+			}
+		},{
+			"id" : "startPerspectives",
+			"type" : "Javelin.Tasks.Composite.Parallel",
+			"configuration" : {
+				"tasks" : [{
+						"id" : "startPerspectiv890Service",
+						"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+						"configuration" : {
+							"timeout": "00:02:00",
+							"serviceName" : "PerspectivServer890"
+						}
+					}, {
+						"id" : "startPerspectiv891Service",
+						"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+						"configuration" : {
+							"timeout": "00:02:00",
+							"serviceName" : "PerspectivServer891"
+						}
+					}, {
+						"id" : "startPerspectiv990Service",
+						"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+						"configuration" : {
+							"timeout": "00:02:00",
+							"serviceName" : "PerspectivServer990"
+						}
+					}, {
+						"id" : "startPerspectiv1210Service",
+						"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+						"configuration" : {
+							"timeout": "00:02:00",
+							"serviceName" : "PerspectivServer1210"
+						}
+					}, {
+						"id" : "startPerspectiv1211Service",
+						"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+						"configuration" : {
+							"timeout": "00:02:00",
+							"serviceName" : "PerspectivServer1211"
+						}
+					}, {
+						"id" : "startPerspectiv1212Service",
+						"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+						"configuration" : {
+							"timeout": "00:02:00",
+							"serviceName" : "PerspectivServer1212"
+						}
+					}, {
+						"id" : "startPerspectiv1213Service",
+						"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+						"configuration" : {
+							"timeout": "00:02:00",
+							"serviceName" : "PerspectivServer1213"
+						}
+					}, {
+						"id" : "startPerspectiv1214Service",
+						"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+						"configuration" : {
+							"timeout": "00:02:00",
+							"serviceName" : "PerspectivServer1214"
+						}
+					}
+				]
+			}
+		},{
+			"id" : "stop161wrappers",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.161:6958",
+				"timeout": "00:01:00",
+				"task" : {
+					"id" : "doStop161Wrappers",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+								"id" : "stopWrapper161-8081WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8081"
+								}
+							}, {
+								"id" : "stopWrapper161-8082WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8082"
+								}
+							}, {
+								"id" : "stopWrapper161-8083WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8083"
+								}
+							}, {
+								"id" : "stopWrapper161-8084WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8084"
+								}
+							}, {
+								"id" : "stopWrapper161-8085WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8085"
+								}
+							}, {
+								"id" : "stopWrapper161-8086WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8086"
+								}
+							}, {
+								"id" : "stopWrapper161-8087WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8087"
+								}
+							}, {
+								"id" : "stopWrapper161-8088WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8088"
+								}
+							}, {
+								"id" : "stopWrapper161-8089WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8089"
+								}
+							}, {
+								"id" : "stopWrapper161-8090WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8090"
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "stop162wrappers",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.162:6958",
+				"timeout": "00:01:00",
+				"task" : {
+					"id" : "doStop162Wrappers",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+								"id" : "stopWrapper162-8081WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8081"
+								}
+							}, {
+								"id" : "stopWrapper162-8082WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8082"
+								}
+							}, {
+								"id" : "stopWrapper162-8083WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8083"
+								}
+							}, {
+								"id" : "stopWrapper162-8084WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8084"
+								}
+							}, {
+								"id" : "stopWrapper162-8085WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8085"
+								}
+							}, {
+								"id" : "stopWrapper162-8086WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8086"
+								}
+							}, {
+								"id" : "stopWrapper162-8087WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8087"
+								}
+							}, {
+								"id" : "stopWrapper162-8088WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8088"
+								}
+							}, {
+								"id" : "stopWrapper162-8089WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8089"
+								}
+							}, {
+								"id" : "stopWrapper162-8090WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8090"
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "stop163wrappers",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.163:6958",
+				"timeout": "00:01:00",
+				"task" : {
+					"id" : "doStop163wrappers",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+								"id" : "stopWrapper163-12000WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12000"
+								}
+							}, {
+								"id" : "stopWrapper163-12001WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12001"
+								}
+							}, {
+								"id" : "stopWrapper163-12004WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12004"
+								}
+							}, {
+								"id" : "stopWrapper163-12010WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12010"
+								}
+							}, {
+								"id" : "stopWrapper163-12013WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12013"
+								}
+							}, {
+								"id" : "stopWrapper163-12033WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12033"
+								}
+							}, {
+								"id" : "stopWrapper163-12057WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12057"
+								}
+							}, {
+								"id" : "stopWrapper163-12208WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12208"
+								}
+							}, {
+								"id" : "stopWrapper163-12223WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12223"
+								}
+							}, {
+								"id" : "stopWrapper163-12243WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12243"
+								}
+							}, {
+								"id" : "stopWrapper163-12484WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StopWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12484"
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "start161wrappers",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.161:6958",
+				"timeout": "00:01:00",
+				"task" : {
+					"id" : "doStart161Wrappers",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+								"id" : "startWrapper161-8081WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8081"
+								}
+							}, {
+								"id" : "startWrapper161-8082WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8082"
+								}
+							}, {
+								"id" : "startWrapper161-8083WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8083"
+								}
+							}, {
+								"id" : "startWrapper161-8084WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8084"
+								}
+							}, {
+								"id" : "startWrapper161-8085WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8085"
+								}
+							}, {
+								"id" : "startWrapper161-8086WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8086"
+								}
+							}, {
+								"id" : "startWrapper161-8087WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8087"
+								}
+							}, {
+								"id" : "startWrapper161-8088WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8088"
+								}
+							}, {
+								"id" : "startWrapper161-8089WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8089"
+								}
+							}, {
+								"id" : "startWrapper161-8090WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8090"
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "start162wrappers",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.162:6958",
+				"timeout": "00:01:00",
+				"task" : {
+					"id" : "doStart162Wrappers",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+								"id" : "startWrapper162-8081WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8081"
+								}
+							}, {
+								"id" : "startWrapper162-8082WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8082"
+								}
+							}, {
+								"id" : "startWrapper162-8083WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8083"
+								}
+							}, {
+								"id" : "startWrapper162-8084WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8084"
+								}
+							}, {
+								"id" : "startWrapper162-8085WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8085"
+								}
+							}, {
+								"id" : "startWrapper162-8086WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8086"
+								}
+							}, {
+								"id" : "startWrapper162-8087WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8087"
+								}
+							}, {
+								"id" : "startWrapper162-8088WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8088"
+								}
+							}, {
+								"id" : "startWrapper162-8089WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8089"
+								}
+							}, {
+								"id" : "startWrapper162-8090WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper8090"
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "start163wrappers",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.163:6958",
+				"timeout": "00:01:00",
+				"task" : {
+					"id" : "doStart163wrappers",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+								"id" : "startWrapper163-12000WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12000"
+								}
+							}, {
+								"id" : "startWrapper163-12001WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12001"
+								}
+							}, {
+								"id" : "startWrapper163-12004WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12004"
+								}
+							}, {
+								"id" : "startWrapper163-12010WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12010"
+								}
+							}, {
+								"id" : "startWrapper163-12013WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12013"
+								}
+							}, {
+								"id" : "startWrapper163-12033WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12033"
+								}
+							}, {
+								"id" : "startWrapper163-12057WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12057"
+								}
+							}, {
+								"id" : "startWrapper163-12208WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12208"
+								}
+							}, {
+								"id" : "startWrapper163-12223WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12223"
+								}
+							}, {
+								"id" : "startWrapper163-12243WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12243"
+								}
+							}, {
+								"id" : "startWrapper163-12484WrapperService",
+								"type" : "Javelin.Tasks.WindowsService.StartWindowsService",
+								"configuration" : {
+									"timeout": "00:02:00",
+									"serviceName" : "Wrapper12484"
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "backupWrapper161Logs",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.161:6958",
+				"timeout": "00:05:00",
+				"task" : {
+					"id" : "doBackupWrapper161Logs",
+					"type" : "Javelin.Tasks.Composite.List",
+					"configuration" : {
+						"breakOnFail" : true,
+						"tasks" : [{
+								"id" : "zipWrapper161Logs",
+								"type" : "Javelin.Tasks.Backup.ZipFiles",
+								"configuration" : {
+									"deleteFiles" : true,
+									"archiveTemplate" : "d:\\Logs\\backup\\wrapper_{timestamp}.zip",
+									"files" : [{
+											"path" : "D:\\Logs\\Wrapper8081\\wrapper.log",
+											"archivePath" : "Wrapper8081\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8082\\wrapper.log",
+											"archivePath" : "Wrapper8082\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8083\\wrapper.log",
+											"archivePath" : "Wrapper8083\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8084\\wrapper.log",
+											"archivePath" : "Wrapper8084\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8085\\wrapper.log",
+											"archivePath" : "Wrapper8085\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8086\\wrapper.log",
+											"archivePath" : "Wrapper8086\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8087\\wrapper.log",
+											"archivePath" : "Wrapper8087\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8088\\wrapper.log",
+											"archivePath" : "Wrapper8088\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8089\\wrapper.log",
+											"archivePath" : "Wrapper8089\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8090\\wrapper.log",
+											"archivePath" : "Wrapper8090\\wrapper.log"
+										}
+									]
+								}
+							}, {
+								"id" : "deleteOldWrapper161Archives",
+								"type" : "Javelin.Tasks.Backup.DeleteOldFiles",
+								"configuration" : {
+									"numberOfDays" : 20,
+									"regexFilter" : "wrapper_[0-9]{8}_[0-9]{4}\\.zip",
+									"directories" : [
+										"d:\\Logs\\backup"
+									]
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "backupWrapper162Logs",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.162:6958",
+				"timeout": "00:05:00",
+				"task" : {
+					"id" : "doBackupWrapper162Logs",
+					"type" : "Javelin.Tasks.Composite.List",
+					"configuration" : {
+						"breakOnFail" : true,
+						"tasks" : [{
+								"id" : "zipWrapper162Logs",
+								"type" : "Javelin.Tasks.Backup.ZipFiles",
+								"configuration" : {
+									"deleteFiles" : true,
+									"archiveTemplate" : "d:\\Logs\\backup\\wrapper_{timestamp}.zip",
+									"files" : [{
+											"path" : "D:\\Logs\\Wrapper8081\\wrapper.log",
+											"archivePath" : "Wrapper8081\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8082\\wrapper.log",
+											"archivePath" : "Wrapper8082\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8083\\wrapper.log",
+											"archivePath" : "Wrapper8083\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8084\\wrapper.log",
+											"archivePath" : "Wrapper8084\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8085\\wrapper.log",
+											"archivePath" : "Wrapper8085\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8086\\wrapper.log",
+											"archivePath" : "Wrapper8086\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8087\\wrapper.log",
+											"archivePath" : "Wrapper8087\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8088\\wrapper.log",
+											"archivePath" : "Wrapper8088\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8089\\wrapper.log",
+											"archivePath" : "Wrapper8089\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper8090\\wrapper.log",
+											"archivePath" : "Wrapper8090\\wrapper.log"
+										}
+									]
+								}
+							}, {
+								"id" : "deleteOldWrapper162Archives",
+								"type" : "Javelin.Tasks.Backup.DeleteOldFiles",
+								"configuration" : {
+									"numberOfDays" : 20,
+									"regexFilter" : "wrapper_[0-9]{8}_[0-9]{4}\\.zip",
+									"directories" : [
+										"d:\\Logs\\backup"
+									]
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "backupWrapper163Logs",
+			"type" : "Javelin.Tasks.MasterSlave.Delegate",
+			"configuration" : {
+				"uri": "http://192.168.250.163:6958",
+				"timeout": "00:01:00",
+				"task" : {
+					"id" : "doBackupWrapper163Logs",
+					"type" : "Javelin.Tasks.Composite.List",
+					"configuration" : {
+						"breakOnFail" : true,
+						"tasks" : [{
+								"id" : "zipWrapper163Logs",
+								"type" : "Javelin.Tasks.Backup.ZipFiles",
+								"configuration" : {
+									"deleteFiles" : true,
+									"archiveTemplate" : "d:\\Logs\\backup\\wrapper_{timestamp}.zip",
+									"files" : [{
+											"path" : "D:\\Logs\\Wrapper12000\\wrapper.log",
+											"archivePath" : "Wrapper12000\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12001\\wrapper.log",
+											"archivePath" : "Wrapper12001\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12004\\wrapper.log",
+											"archivePath" : "Wrapper12004\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12010\\wrapper.log",
+											"archivePath" : "Wrapper12010\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12013\\wrapper.log",
+											"archivePath" : "Wrapper12013\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12033\\wrapper.log",
+											"archivePath" : "Wrapper12033\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12057\\wrapper.log",
+											"archivePath" : "Wrapper12057\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12208\\wrapper.log",
+											"archivePath" : "Wrapper12208\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12223\\wrapper.log",
+											"archivePath" : "Wrapper12223\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12243\\wrapper.log",
+											"archivePath" : "Wrapper12243\\wrapper.log"
+										}, {
+											"path" : "D:\\Logs\\Wrapper12484\\wrapper.log",
+											"archivePath" : "Wrapper12484\\wrapper.log"
+										}
+									]
+								}
+							}, {
+								"id" : "deleteOldWrapper163Archives",
+								"type" : "Javelin.Tasks.Backup.DeleteOldFiles",
+								"configuration" : {
+									"numberOfDays" : 20,
+									"regexFilter" : "wrapper_[0-9]{8}_[0-9]{4}\\.zip",
+									"directories" : [
+										"d:\\Logs\\backup"
+									]
+								}
+							}
+						]
+					}
+				}
+			}
+		},{
+			"id" : "restartAndBackup161wrappers",
+			"type" : "Javelin.Tasks.Composite.List",
+			"configuration" : {
+				"breakOnFail" : false,
+				"tasks" : [{
+					"id" : "runStop161wrappers",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "stop161wrappers"
+					}
+				},{
+					"id" : "runBackupWrapper161Logs",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "backupWrapper161Logs"
+					}
+				},{
+					"id" : "runStart161wrappers",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "start161wrappers"
+					}
+				}]
+			}
+		},{
+			"id" : "restartAndBackup162wrappers",
+			"type" : "Javelin.Tasks.Composite.List",
+			"configuration" : {
+				"breakOnFail" : false,
+				"tasks" : [{
+					"id" : "runStop162wrappers",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "stop162wrappers"
+					}
+				},{
+					"id" : "runBackupWrapper162Logs",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "backupWrapper162Logs"
+					}
+				},{
+					"id" : "runStart162wrappers",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "start162wrappers"
+					}
+				}]
+			}
+		},{
+			"id" : "restartAndBackup163wrappers",
+			"type" : "Javelin.Tasks.Composite.List",
+			"configuration" : {
+				"breakOnFail" : false,
+				"tasks" : [{
+					"id" : "runStop163wrappers",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "stop163wrappers"
+					}
+				},{
+					"id" : "runBackupWrapper163Logs",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "backupWrapper163Logs"
+					}
+				},{
+					"id" : "runStart163wrappers",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "start163wrappers"
+					}
+				}]
+			}
+		},{
+			"id" : "restartServicesAndMakeLogBackup",
+			"type" : "Javelin.Tasks.Composite.List",
+			"configuration" : {
+				"breakOnFail" : false,
+				"tasks" : [{
+					"id" : "runStopPerspectives",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "stopPerspectives"
+					}
+				},{
+					"id" : "stopWrappersAndBackupPerspectivLogs",
+					"type" : "Javelin.Tasks.Composite.Parallel",
+					"configuration" : {
+						"tasks" : [{
+							"id" : "restartWrappers",
+							"type" : "Javelin.Tasks.Composite.Parallel",
+							"configuration" : {
+								"tasks" : [{
+									"id" : "runRestartAndBackup161wrappers",
+									"type" : "Javelin.Tasks.PredefinedTask",
+									"configuration" : {
+										"taskId" : "restartAndBackup161wrappers"
+									}
+								},{
+									"id" : "runRestartAndBackup162wrappers",
+									"type" : "Javelin.Tasks.PredefinedTask",
+									"configuration" : {
+										"taskId" : "restartAndBackup162wrappers"
+									}
+								},{
+									"id" : "runRestartAndBackup163wrappers",
+									"type" : "Javelin.Tasks.PredefinedTask",
+									"configuration" : {
+										"taskId" : "restartAndBackup163wrappers"
+									}
+								}]
+							}
+						},{
+							"id": "runBackupPerspectivLogs",
+							"type" : "Javelin.Tasks.PredefinedTask",
+							"configuration" : {
+								"taskId" : "backupPerspectivLogs"
+							}
+						}]
+					}
+				}, {
+					"id" : "runStartPerspectives",
+					"type" : "Javelin.Tasks.PredefinedTask",
+					"configuration" : {
+						"taskId" : "startPerspectives"
+					}
+				}]
 			}
 		}
 	]

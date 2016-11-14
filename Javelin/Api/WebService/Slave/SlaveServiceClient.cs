@@ -1,7 +1,7 @@
 ﻿using Javelin.Api.CommonContract;
 using Javelin.Api.Rest;
 
-namespace Javelin.Api.Slave
+namespace Javelin.Api.WebService.Slave
 {
 	public class SlaveServiceClient : RestClient, ISlaveServiceClient
 	{

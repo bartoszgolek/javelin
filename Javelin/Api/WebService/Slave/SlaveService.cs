@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Javelin.Api.Master;
+using Javelin.Api.WebService.Master;
 using Javelin.Base.Config;
 using Javelin.Base.Tasks;
 using Javelin.ScheduledTasks;
 using log4net;
 using Newtonsoft.Json.Linq;
 
-namespace Javelin.Api.Slave
+namespace Javelin.Api.WebService.Slave
 {
 	internal class SlaveService : ISlaveService
 	{

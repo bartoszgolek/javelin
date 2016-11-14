@@ -18,6 +18,11 @@ namespace Javelin.ScheduledTasks
 			get { return configReader["id"]; }
 		}
 
+		public string Description
+		{
+			get { return configReader["description"] ?? string.Empty; }
+		}
+
 		public Type TaskType
 		{
 			get

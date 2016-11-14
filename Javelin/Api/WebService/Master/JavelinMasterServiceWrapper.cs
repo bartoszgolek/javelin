@@ -2,7 +2,7 @@
 using Javelin.Api.Helpers;
 using ServiceStack.ServiceHost;
 
-namespace Javelin.Api.Master
+namespace Javelin.Api.WebService.Master
 {
 	public class JavelinMasterServiceWrapper : IService
 	{

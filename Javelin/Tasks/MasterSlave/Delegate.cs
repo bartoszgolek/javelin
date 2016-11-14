@@ -1,5 +1,5 @@
 ﻿using System;
-using Javelin.Api.Slave;
+using Javelin.Api.WebService.Slave;
 using Javelin.Base.Tasks;
 using log4net;
 using Newtonsoft.Json.Linq;

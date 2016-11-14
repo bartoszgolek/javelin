@@ -1,6 +1,6 @@
 ﻿using Javelin.Base.Config;
 
-namespace Javelin.Api.Master
+namespace Javelin.Api.WebService.Master
 {
 	internal class MasterServiceClientConfig : BaseConfig, IMasterServiceClientConfig
 	{

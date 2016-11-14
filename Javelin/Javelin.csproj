@@ -82,12 +82,13 @@
   <ItemGroup>
     <Compile Include="Api\Helpers\IServiceStackTemplate.cs" />
     <Compile Include="Api\Host\AutofacIocAdapter.cs" />
-    <Compile Include="Api\Master\IMasterService.cs" />
-    <Compile Include="Api\Master\IMasterServiceClientConfig.cs" />
-    <Compile Include="Api\Master\MasterService.cs" />
-    <Compile Include="Api\Master\MasterServiceClient.cs" />
-    <Compile Include="Api\Master\IMasterServiceClient.cs" />
-    <Compile Include="Api\Master\MasterServiceClientConfig.cs" />
+    <Compile Include="Api\WebService\JavelinSlaveServiceWrapper.cs" />
+    <Compile Include="Api\WebService\Master\IMasterService.cs" />
+    <Compile Include="Api\WebService\Master\IMasterServiceClientConfig.cs" />
+    <Compile Include="Api\WebService\Master\MasterService.cs" />
+    <Compile Include="Api\WebService\Master\MasterServiceClient.cs" />
+    <Compile Include="Api\WebService\Master\IMasterServiceClient.cs" />
+    <Compile Include="Api\WebService\Master\MasterServiceClientConfig.cs" />
     <Compile Include="Api\Rest\ContainerExtender.cs" />
     <Compile Include="Api\Rest\ContentTypes.cs" />
     <Compile Include="Api\Rest\Serializers\XmlWebClientSerializer.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Api\Rest\IWebClientSerializerFactory.cs" />
     <Compile Include="Api\Rest\WebClientSerializerFactory.cs" />
     <Compile Include="Api\ServiceStackAppHost.cs" />
-    <Compile Include="Api\Master\JavelinMasterServiceWrapper.cs" />
+    <Compile Include="Api\WebService\Master\JavelinMasterServiceWrapper.cs" />
     <Compile Include="Api\Helpers\FaultDetails.cs" />
     <Compile Include="Api\Helpers\ServiceStackTemplate.cs" />
     <Compile Include="Api\Host\AppHostAsynchronousHttpListener.cs" />
@@ -109,16 +110,20 @@
     <Compile Include="Api\Rest\RestReaderResponse.cs" />
     <Compile Include="Api\Rest\RestRequestBuilder.cs" />
     <Compile Include="Api\Rest\Serializers\JsonWebClientSerializer.cs" />
-    <Compile Include="Api\Slave\ISlaveService.cs" />
-    <Compile Include="Api\Slave\ISlaveServiceClient.cs" />
-    <Compile Include="Api\Slave\ISlaveServiceConfig.cs" />
+    <Compile Include="Api\WebService\ICommonService.cs" />
+    <Compile Include="Api\WebService\CommonService.cs" />
+    <Compile Include="Api\WebService\Slave\ISlaveService.cs" />
+    <Compile Include="Api\WebService\Slave\ISlaveServiceClient.cs" />
+    <Compile Include="Api\WebService\Slave\ISlaveServiceConfig.cs" />
     <Compile Include="Api\MethodVerbs.cs" />
     <Compile Include="Api\ServiceStackAppHostBase.cs" />
-    <Compile Include="Api\Slave\JavelinSlaveServiceWrapper.cs" />
-    <Compile Include="Api\Slave\SlaveService.cs" />
-    <Compile Include="Api\Slave\SlaveServiceClient.cs" />
+    <Compile Include="Api\WebService\Slave\JavelinSlaveServiceWrapper.cs" />
+    <Compile Include="Api\WebService\Slave\SlaveService.cs" />
+    <Compile Include="Api\WebService\Slave\SlaveServiceClient.cs" />
     <Compile Include="Api\ServiceStackMethodRegistrationInfo.cs" />
     <Compile Include="Api\CommonContract\TaskDelegate.cs" />
+    <Compile Include="Api\CommonContract\TaskRun.cs" />
+    <Compile Include="Api\CommonContract\TasksGet.cs" />
     <Compile Include="Bootstrapper.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -127,8 +132,9 @@
     </Compile>
     <Compile Include="Config\BootstrapperConfig.cs" />
     <Compile Include="Config\BootstrapperMode.cs" />
-    <Compile Include="SlaveModule.cs" />
-    <Compile Include="MasterModule.cs" />
+    <Compile Include="Tasks\EmptyTask.cs" />
+    <Compile Include="Tasks\EmptyTaskConfig.cs" />
+    <Compile Include="WebServiceModule.cs" />
     <Compile Include="RestModule.cs" />
     <Compile Include="ExecutionArgs.cs" />
     <Compile Include="Config\IBootstrapperConfig.cs" />
@@ -158,11 +164,12 @@
     <Compile Include="Tasks\Composite\ListConfig.cs" />
     <Compile Include="Tasks\Composite\Parallel.cs" />
     <Compile Include="Tasks\Composite\ParallelConfig.cs" />
-    <Compile Include="Tasks\Composite\TaskConfigExtension.cs" />
     <Compile Include="Tasks\MasterSlave\AwaitingTasks.cs" />
     <Compile Include="Tasks\MasterSlave\Delegate.cs" />
     <Compile Include="Tasks\MasterSlave\DelegateConfig.cs" />
     <Compile Include="Tasks\MasterSlave\IAwaitingTasks.cs" />
+    <Compile Include="Tasks\PredefinedTask.cs" />
+    <Compile Include="Tasks\PredefinedTaskConfig.cs" />
     <Compile Include="Tasks\WindowsService\StartWindowsServiceConfig.cs" />
     <Compile Include="Tasks\WindowsService\ServiceManager.cs" />
     <Compile Include="Tasks\WindowsService\StartWindowsService.cs" />

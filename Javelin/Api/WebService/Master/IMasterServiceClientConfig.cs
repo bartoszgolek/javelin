@@ -1,4 +1,4 @@
-﻿namespace Javelin.Api.Master
+﻿namespace Javelin.Api.WebService.Master
 {
 	public interface IMasterServiceClientConfig
 	{

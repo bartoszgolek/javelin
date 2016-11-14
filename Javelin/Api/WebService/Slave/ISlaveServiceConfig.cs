@@ -1,4 +1,4 @@
-﻿namespace Javelin.Api.Slave
+﻿namespace Javelin.Api.WebService.Slave
 {
 	internal interface ISlaveServiceConfig
 	{

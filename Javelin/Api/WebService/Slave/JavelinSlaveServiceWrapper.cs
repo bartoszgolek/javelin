@@ -2,7 +2,7 @@
 using Javelin.Api.Helpers;
 using ServiceStack.ServiceHost;
 
-namespace Javelin.Api.Slave
+namespace Javelin.Api.WebService.Slave
 {
 	public class JavelinSlaveServiceWrapper : IService
 	{
