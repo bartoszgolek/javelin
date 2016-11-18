@@ -48,7 +48,7 @@ namespace Javelin.Tasks.Composite
 
 			logger.DebugFormat("Finished.");
 
-			var description = string.Join(Environment.NewLine, results.Select(r => r.Description));
+			var description = string.Join(Environment.NewLine, results.Select(r => r.Description).Where(s => !string.IsNullOrWhiteSpace(s)));
 			if (results.All(r => r.Status == TaskResultStatus.Success))
 				return TaskResult.Success(description);
 
