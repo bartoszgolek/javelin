@@ -14,7 +14,7 @@ namespace Javelin.Tasks.WindowsService
 		{
 			get
 			{
-				return TimeSpan.Parse(configReader["timeout"]);
+				return configReader.GetTimeSpan("timeout");
 			}
 		}
 
@@ -22,7 +22,7 @@ namespace Javelin.Tasks.WindowsService
 		{
 			get
 			{
-				return configReader["serviceName"];
+				return configReader.GetValue("serviceName");
 			}
 		}
 	}

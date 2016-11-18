@@ -9,7 +9,12 @@
 		}
 	],
 	"tasks" : [{
-			"id" : "stopPerspectives",
+			"id" : "sleep",
+			"type" : "Javelin.Tasks.Misc.SleepTask",
+			"configuration" : {
+				"timeout": "00:00:30"
+			}
+		},{
 			"type" : "Javelin.Tasks.Composite.List",
 			"configuration" : {
 				"breakOnFail" : false,
@@ -105,6 +110,7 @@
 			}
 		},{
 			"id" : "backupPerspectivLogs",
+			"hidden" : true,
 			"type" : "Javelin.Tasks.Composite.List",
 			"configuration" : {
 				"breakOnFail" : true,

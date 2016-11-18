@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Config\BaseConfig.cs" />
     <Compile Include="Config\ConfigReader.cs" />
+    <Compile Include="Config\ConfigReaderExtensions.cs" />
     <Compile Include="Config\IConfigReader.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="IExecutionArgs.cs" />

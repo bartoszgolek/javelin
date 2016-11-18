@@ -11,7 +11,7 @@ namespace Javelin.Tasks
 
 		public string TaskId
 		{
-			get { return configReader["taskId"]; }
+			get { return configReader.GetValue("taskId"); }
 		}
 	}
 }

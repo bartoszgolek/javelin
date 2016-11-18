@@ -1,5 +1,4 @@
-﻿using System;
-using Javelin.Base.Config;
+﻿using Javelin.Base.Config;
 
 namespace Javelin.Config
 {
@@ -12,17 +11,17 @@ namespace Javelin.Config
 
 		public bool IsSlave
 		{
-			get { return (BootstrapperMode)Enum.Parse(typeof(BootstrapperMode), configReader["mode"]) == BootstrapperMode.Slave; }
+			get { return configReader.GetEnum("mode", BootstrapperMode.Master) == BootstrapperMode.Slave; }
 		}
 
 		public bool IsMaster
 		{
-			get { return (BootstrapperMode)Enum.Parse(typeof(BootstrapperMode), configReader["mode"]) == BootstrapperMode.Master; }
+			get { return configReader.GetEnum("mode", BootstrapperMode.Master) == BootstrapperMode.Master; }
 		}
 
 		public string RootUri
 		{
-			get { return configReader["rootUri"]; }
+			get { return configReader.GetValue("rootUri"); }
 		}
 	}
 }

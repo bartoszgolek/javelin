@@ -18,7 +18,7 @@ namespace Javelin.Base.Tasks
 		protected Task(string id, TConfiguration config)
 		{
 			this.config = config;
-			taskId = id;
+			taskId = id ?? Guid.NewGuid().ToString("B");
 		}
 
 		public string TaskId

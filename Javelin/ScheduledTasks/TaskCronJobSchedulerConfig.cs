@@ -15,12 +15,12 @@ namespace Javelin.ScheduledTasks
 
 		public bool ShouldStartScheduler
 		{
-			get { return (BootstrapperMode)Enum.Parse(typeof(BootstrapperMode), configReader["mode"]) == BootstrapperMode.Master; }
+			get { return (BootstrapperMode)Enum.Parse(typeof(BootstrapperMode), configReader.GetValue("mode")) == BootstrapperMode.Master; }
 		}
 
 		public bool HasScheduler
 		{
-			get { return configReader.GetSubconfigs("scheduler").Any(); }
+			get { return configReader.Children("scheduler").Any(); }
 		}
 
 		public ISchedulerConfig[] Scheduler
@@ -28,7 +28,7 @@ namespace Javelin.ScheduledTasks
 			get
 			{
 				return configReader
-					.GetSubconfigs("scheduler")
+					.Children("scheduler")
 					.Select(cr => new SchedulerConfig(cr))
 					.Cast<ISchedulerConfig>()
 					.ToArray();
@@ -40,7 +40,7 @@ namespace Javelin.ScheduledTasks
 			get
 			{
 				return configReader
-					.GetSubconfigs("tasks")
+					.Children("tasks")
 					.Select(cr => new TaskConfig(cr))
 					.Cast<ITaskConfig>()
 					.ToArray();

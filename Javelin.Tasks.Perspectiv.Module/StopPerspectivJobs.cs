@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Javelin.Base.Tasks;
 using ServiceStack.Logging;
 
@@ -27,6 +28,7 @@ namespace Javelin.Tasks.Perspectiv
 			string[] activeJobs;
 			do
 			{
+				Thread.Sleep(config.Timeout);
 				activeJobs = managementClient.ListActiveJobs();
 			} while (activeJobs.Length > 0);
 

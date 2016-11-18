@@ -16,8 +16,7 @@ namespace Javelin.Tasks.Composite
 		{
 			get
 			{
-				var breakOnFail = configReader["breakOnFail"];
-				return breakOnFail == null || bool.Parse(breakOnFail);
+				return configReader.GetBool("breakOnFail", true);
 			}
 		}
 
@@ -26,7 +25,7 @@ namespace Javelin.Tasks.Composite
 			get
 			{
 				return configReader
-					.GetSubconfigs("tasks")
+					.Children("tasks")
 					.Select(cr => new TaskConfig(cr))
 					.Cast<ITaskConfig>()
 					.ToArray();

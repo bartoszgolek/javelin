@@ -13,17 +13,17 @@ namespace Javelin.ScheduledTasks
 
 		public string TaskId
 		{
-			get { return configReader["taskId"]; }
+			get { return configReader.GetValue("taskId"); }
 		}
 
 		public string CronExpression
 		{
-			get { return configReader["cronExpression"]; }
+			get { return configReader.GetValue("cronExpression"); }
 		}
 
 		public bool Locked
 		{
-			get { return bool.Parse(configReader["lock"]); }
+			get { return configReader.GetBool("lock"); }
 		}
 	}
 }

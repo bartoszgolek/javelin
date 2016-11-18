@@ -17,7 +17,7 @@ namespace Javelin.Tasks.Composite
 			get
 			{
 				return configReader
-					.GetSubconfigs("tasks")
+					.Children("tasks")
 					.Select(cr => new TaskConfig(cr))
 					.Cast<ITaskConfig>()
 					.ToArray();

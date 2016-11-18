@@ -15,30 +15,35 @@ namespace Javelin.ScheduledTasks
 
 		public string TaskId
 		{
-			get { return configReader["id"]; }
+			get { return configReader.GetValue("id"); }
 		}
 
 		public string Description
 		{
-			get { return configReader["description"] ?? string.Empty; }
+			get { return configReader.GetValue("description") ?? string.Empty; }
 		}
 
 		public Type TaskType
 		{
 			get
 			{
-				var type = Type.GetType(configReader["type"]);
+				var type = Type.GetType(configReader.GetValue("type"));
 
 				if (type == null)
-					throw new Exception(string.Format("Unknown type '{0}'.", configReader["type"]));
+					throw new Exception(string.Format("Unknown type '{0}'.", configReader.GetValue("type")));
 
 				return type;
 			}
 		}
 
+		public bool IsHidden
+		{
+			get { return configReader.GetBool("hidden"); }
+		}
+
 		public TTaskConfig GetTaskConfig<TTaskConfig>()
 		{
-			return (TTaskConfig)Activator.CreateInstance(typeof(TTaskConfig), configReader.GetSubconfig("configuration"));
+			return (TTaskConfig)Activator.CreateInstance(typeof(TTaskConfig), configReader["configuration"]);
 		}
 	}
 }

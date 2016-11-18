@@ -180,6 +180,7 @@ namespace Javelin
 
 			containerBuilder.RegisterModule(new MainModule());
 			containerBuilder.RegisterModule(new RestModule());
+			containerBuilder.RegisterModule(new TasksModule());
 			containerBuilder.RegisterModule(new WebServiceModule());
 
 			containerBuilder.Register(c => new ExecutionArgs(args)).As<IExecutionArgs>();

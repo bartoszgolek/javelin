@@ -1,4 +1,5 @@
-﻿using Javelin.Base.Config;
+﻿using System;
+using Javelin.Base.Config;
 
 namespace Javelin.Tasks.Perspectiv
 {
@@ -11,7 +12,12 @@ namespace Javelin.Tasks.Perspectiv
 
 		public string PerspectivUri
 		{
-			get { return configReader["perspectivUri"]; }
+			get { return configReader.GetValue("perspectivUri"); }
+		}
+
+		public TimeSpan Timeout
+		{
+			get { return configReader.GetTimeSpan("checkingInterval", TimeSpan.FromSeconds(5)); }
 		}
 	}
 }

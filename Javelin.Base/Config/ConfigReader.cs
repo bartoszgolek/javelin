@@ -31,24 +31,21 @@ namespace Javelin.Base.Config
 			plainConfig = token.ToString();
 		}
 
-		public string this[string path]
+		public string GetValue(string path)
 		{
-			get
-			{
-				var jToken = GetToken(path);
-				if (jToken == null)
-					return null;
+			var jToken = GetToken(path);
+			if (jToken == null)
+				return null;
 
-				return jToken.Value<string>();
-			}
+			return jToken.Value<string>();
 		}
 
-		public IConfigReader GetSubconfig(string path)
+		public IConfigReader this[string path]
 		{
-			return new ConfigReader(GetToken(path));
+			get { return new ConfigReader(GetToken(path)); }
 		}
 
-		public IConfigReader[] GetSubconfigs(string path)
+		public IConfigReader[] Children(string path)
 		{
 			var jToken = GetToken(path);
 

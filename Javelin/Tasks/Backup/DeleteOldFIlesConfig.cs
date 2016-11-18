@@ -15,7 +15,7 @@ namespace Javelin.Tasks.Backup
 		{
 			get
 			{
-				return int.Parse(configReader["numberOfDays"]);
+				return configReader.GetInt32("numberOfDays");
 			}
 		}
 
@@ -23,7 +23,7 @@ namespace Javelin.Tasks.Backup
 		{
 			get
 			{
-				return configReader["regexFilter"];
+				return configReader.GetValue("regexFilter");
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace Javelin.Tasks.Backup
 			get
 			{
 				return configReader
-					.GetSubconfigs("directories")
+					.Children("directories")
 					.Select(cr => cr.ToString())
 					.ToList();
 			}

@@ -7,6 +7,7 @@ namespace Javelin.Base.Tasks
 		string TaskId { get; }
 		string Description { get; }
 		Type TaskType { get; }
+		bool IsHidden { get; }
 
 		TTaskConfig GetTaskConfig<TTaskConfig>();
 	}

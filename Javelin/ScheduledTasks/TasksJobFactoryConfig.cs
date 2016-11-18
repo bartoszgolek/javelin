@@ -13,17 +13,17 @@ namespace Javelin.ScheduledTasks
 
 		public ISchedulerConfig GetSchedulerConfig(string name)
 		{
-			return new SchedulerConfig(configReader.GetSubconfigs("scheduler").Single(s => s["taskId"] == name));
+			return new SchedulerConfig(configReader.Children("scheduler").Single(s => s.GetValue("taskId") == name));
 		}
 
 		public ITaskConfig GetTaskConfig(string taskId)
 		{
-			return new TaskConfig(configReader.GetSubconfigs("tasks").Single(t => t["id"] == taskId));
+			return new TaskConfig(configReader.Children("tasks").Single(t => t.GetValue("id") == taskId));
 		}
 
 		public ITaskConfig[] GetTaskConfigs()
 		{
-			return configReader.GetSubconfigs("tasks").Select(t => new TaskConfig(t)).Cast<ITaskConfig>().ToArray();
+			return configReader.Children("tasks").Select(t => new TaskConfig(t)).Cast<ITaskConfig>().ToArray();
 		}
 	}
 }

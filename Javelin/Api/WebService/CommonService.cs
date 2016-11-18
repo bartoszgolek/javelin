@@ -20,7 +20,7 @@ namespace Javelin.Api.WebService
 
 		public string[] GetDefinedTasks()
 		{
-			return predefinedTasksConfig.GetTaskConfigs().Select(tc => tc.GetTaskInfo()).ToArray();
+			return predefinedTasksConfig.GetTaskConfigs().Where(tc => !tc.IsHidden && tc.TaskId != null).Select(tc => tc.GetTaskInfo()).ToArray();
 		}
 
 		public TaskResult RunTask(string taskId)

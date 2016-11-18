@@ -15,7 +15,7 @@ namespace Javelin.Tasks.Backup
 		{
 			get
 			{
-				return bool.Parse(configReader["deleteFiles"]);
+				return configReader.GetBool("deleteFiles");
 			}
 		}
 
@@ -23,7 +23,7 @@ namespace Javelin.Tasks.Backup
 		{
 			get
 			{
-				return configReader["archiveTemplate"];
+				return configReader.GetValue("archiveTemplate");
 			}
 		}
 
@@ -31,8 +31,8 @@ namespace Javelin.Tasks.Backup
 		{
 			get
 			{
-				return configReader.GetSubconfigs("files")
-					.ToDictionary(cr => cr["path"], cr => cr["archivePath"]);
+				return configReader.Children("files")
+					.ToDictionary(cr => cr.GetValue("path"), cr => cr.GetValue("archivePath"));
 			}
 		}
 	}

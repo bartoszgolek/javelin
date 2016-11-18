@@ -132,8 +132,11 @@
     </Compile>
     <Compile Include="Config\BootstrapperConfig.cs" />
     <Compile Include="Config\BootstrapperMode.cs" />
+    <Compile Include="TasksModule.cs" />
     <Compile Include="Tasks\EmptyTask.cs" />
     <Compile Include="Tasks\EmptyTaskConfig.cs" />
+    <Compile Include="Tasks\Misc\SleepTask.cs" />
+    <Compile Include="Tasks\Misc\SleepTaskConfig.cs" />
     <Compile Include="WebServiceModule.cs" />
     <Compile Include="RestModule.cs" />
     <Compile Include="ExecutionArgs.cs" />

@@ -12,17 +12,17 @@ namespace Javelin.Tasks.MasterSlave
 
 		public string Uri
 		{
-			get { return configReader["uri"]; }
+			get { return configReader.GetValue("uri"); }
 		}
 
 		public string TaskDefinition
 		{
-			get { return configReader.GetSubconfig("task").ToString(); }
+			get { return configReader["task"].ToString(); }
 		}
 
 		public TimeSpan Timeout
 		{
-			get { return TimeSpan.Parse(configReader["timeout"]); }
+			get { return configReader.GetTimeSpan("timeout"); }
 		}
 	}
 }

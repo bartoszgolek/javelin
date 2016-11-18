@@ -37,9 +37,9 @@ namespace Javelin.Tasks.Backup
 		{
 			var archive = archiveTemplate.Replace("{timestamp}", DateTime.Now.ToString("yyyyMMdd_HHmm"));
 
-			logger.InfoFormat("Compressing into '{0}' files:{1}",
+			logger.InfoFormat("Compressing into '{0}' files: {1}",
 				archive,
-				fileNames.Select(fn => Environment.NewLine + " - " + fn + ","));
+				string.Join(",", fileNames.Select(fn => Environment.NewLine + " - " + fn)));
 
 			CreateArchive(archive);
 			DeleteFiles();
@@ -51,45 +51,57 @@ namespace Javelin.Tasks.Backup
 		{
 			logger.DebugFormat("Creating archive '{0}'.", archive);
 
+			bool fileCompressed = false;
 			FileStream fsOut = File.Create(archive);
 			var zipStream = new ZipOutputStream(fsOut);
 
 			zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
 
 			logger.Debug("Adding files:");
-
-			foreach (KeyValuePair<string, string> fileEntry in fileNames)
+			try
 			{
-				if (!File.Exists(fileEntry.Key))
+				foreach (KeyValuePair<string, string> fileEntry in fileNames)
 				{
-					LogManager.GetLogger(GetType()).WarnFormat("File '{0}' not exists. Skipping.", fileEntry.Key);
-					continue;
-				}
-
-				logger.DebugFormat("Adding file '{0}", fileEntry.Key);
-
-				var fi = new FileInfo(fileEntry.Key);
-
-				string entryName = fileEntry.Value;
-				entryName = ZipEntry.CleanName(entryName);
-				var newEntry = new ZipEntry(entryName)
+					if (!File.Exists(fileEntry.Key))
 					{
-						DateTime = fi.LastWriteTime,
-						Size = fi.Length
-					};
+						LogManager.GetLogger(GetType()).WarnFormat("File '{0}' not exists. Skipping.", fileEntry.Key);
+						continue;
+					}
 
-				zipStream.PutNextEntry(newEntry);
+					logger.DebugFormat("Adding file '{0}", fileEntry.Key);
 
-				var buffer = new byte[4096];
-				using (FileStream streamReader = File.OpenRead(fileEntry.Key))
-					StreamUtils.Copy(streamReader, zipStream, buffer);
+					var fi = new FileInfo(fileEntry.Key);
 
-				zipStream.CloseEntry();
+					string entryName = fileEntry.Value;
+					using (FileStream streamReader = File.OpenRead(fileEntry.Key))
+					{
+						entryName = ZipEntry.CleanName(entryName);
+						var newEntry = new ZipEntry(entryName)
+							{
+								DateTime = fi.LastWriteTime,
+								Size = fi.Length
+							};
+
+						zipStream.PutNextEntry(newEntry);
+
+						var buffer = new byte[4096];
+
+						StreamUtils.Copy(streamReader, zipStream, buffer);
+
+						zipStream.CloseEntry();
+					}
+
+					fileCompressed = true;
+				}
 			}
+			finally
+			{
+				zipStream.IsStreamOwner = true;
+				zipStream.Close();
 
-			zipStream.IsStreamOwner = true;
-			zipStream.Close();
-
+				if (!fileCompressed)
+					File.Delete(archive);
+			}
 			logger.Debug("Compressing finished.");
 		}
 

@@ -2,10 +2,10 @@
 {
 	public interface IConfigReader
 	{
-		string this[string path] { get; }
+		IConfigReader this[string path] { get; }
 
-		IConfigReader GetSubconfig(string path);
+		string GetValue(string path);
 
-		IConfigReader[] GetSubconfigs(string path);
+		IConfigReader[] Children(string path);
 	}
 }

@@ -11,7 +11,7 @@ namespace Javelin.Api.WebService.Master
 
 		public string MasterUri
 		{
-			get { return configReader["masterUri"]; }
+			get { return configReader.GetValue("masterUri"); }
 		}
 	}
 }
